@@ -65,3 +65,36 @@ async function fetchUsers() {
 }
 
 fetchUsers();
+
+// 
+
+function resolveAfter2Seconds() { // returns a promise
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve('resolved');
+      }, 2000);
+    });
+  }
+  
+  async function asyncCall() {
+    console.log('calling');
+    // Difference between await and then
+    // Await pauses the function until the promise is resolved
+    // Then returns another promise and executes after promise is resolved (doesn't pause)
+    var result = await resolveAfter2Seconds(); // the function pauses until the promise is resolved
+    console.log(result); 
+    // if: let result = resolveAfter25Seconds.then(value => console.log(value));
+        // expected output would be: calling --> [Promise Object] --> resolved
+    // expected output: 'resolved'
+  }
+  
+  asyncCall(); // calling --> resolved (skips printing the Promise object because await pauses it)
+  console.log(2 + 2);
+
+//   Output goes:
+// First: calling
+// Second: 4
+// Third: Resolved
+
+// calls the first two outputs immediately then it returns the resolve
+
