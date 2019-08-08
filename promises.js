@@ -98,3 +98,53 @@ function resolveAfter2Seconds() { // returns a promise
 
 // calls the first two outputs immediately then it returns the resolve
 
+// Another example:
+const makeRequest = () =>
+  getJSON()
+    .then(data => {
+      console.log(data)
+      return "done"
+    })
+
+makeRequest()
+
+// is the same as
+
+const makeRequest = async () => {
+    console.log(await getJSON())
+    return "done"
+  }
+  
+  makeRequest()
+
+// The code is more concise
+
+// When handling errors
+
+const makeRequest = () => {
+    try {
+      getJSON()
+        .then(result => {
+          // this parse may fail
+          const data = JSON.parse(result)
+          console.log(data)
+        })
+        // uncomment this block to handle asynchronous errors
+        // .catch((err) => {
+        //   console.log(err)
+        // })
+    } catch (err) {
+      console.log(err)
+    }
+
+// compared to
+
+const makeRequest = async () => {
+    try {
+      // this parse may fail
+      const data = JSON.parse(await getJSON())
+      console.log(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
